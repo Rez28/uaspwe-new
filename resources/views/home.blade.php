@@ -1,8 +1,10 @@
 @extends('layouts.app')
-
 @section('title', 'Welcome to Silat Championship')
 
 @section('content')
+    <header class="">
+        @include('partials.navbar')
+    </header>
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
@@ -154,7 +156,7 @@
 
     </div>
     @include('partials.footer')
-    
-    
+
+
 
 @endsection

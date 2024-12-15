@@ -14,17 +14,18 @@
         rel="stylesheet">
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    @stack('styles')
-    @section('title', 'Admin Dashboard') <!-- Judul halaman -->
 </head>
 
 <body>
+
     <!-- Sidebar -->
     <div class="sidenav col-3" id="sidebar">
-        <h1 class="nav-judul">Pencak Silat</h1>
+        <a class="navbar-brand" href="#">
+            <img src="{{ asset('images/logo_fix.png') }}" alt="Logo" width="70" height="70">
+        </a>
 
         <!-- Dashboard -->
-        <a href="#" class="nav-item mb-2">
+        <a href="{{ route('official.index') }}" class="nav-item mb-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                 class="bi bi-speedometer2 me-2" viewBox="0 0 16 16">
                 <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4z" />
@@ -36,6 +37,7 @@
             </svg>
             <h5 class="nav-text">Dashboard</h5>
         </a>
+
 
         <!-- Manajemen Dropdown -->
         <div class="nav-item dropdown mb-2">
@@ -51,7 +53,7 @@
             <div class="dropdown-menu">
                 <a href="#" class="dropdown-item">Manajemen Kontingen</a>
                 <a href="#" class="dropdown-item">Manajemen Atlet</a>
-                <a href="{{ route('official') }}" class="dropdown-item">Manajemen Official</a>
+                <a href="{{ route('official.index') }}" class="dropdown-item">Manajemen Official</a>
             </div>
         </div>
 
@@ -91,92 +93,37 @@
 
 
 
-
-    <!-- Main Content -->
-    <main class="main-page-specific col-md-9 col-lg-10 p-4">
-        <h1 class="mb-4 text-primary">Dashboard Admin</h1>
-
-        <!-- Statistik Kartu & Kartu Informasi -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <div class="card shadow-lg border-light rounded">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Kontingen</h5>
-                        <p class="card-text fs-4 text-success">20 Kontingen</p>
-                    </div>
-                </div>
+    <div class="container mt-4">
+        <h1 class="mb-4 text-primary">Manajemen Official</h1>
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
-            <div class="col-md-4">
-                <div class="card shadow-lg border-light rounded">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Atlet</h5>
-                        <p class="card-text fs-4 text-warning">150 Atlet</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card shadow-lg border-light rounded">
-                    <div class="card-body">
-                        <h5 class="card-title">Total Pembayaran</h5>
-                        <p class="card-text fs-4 text-info">Rp 25.000.000</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endif
 
-        <!-- Grafik & Statistik -->
-        <div class="row">
-            <!-- Grafik Pendaftaran Atlet -->
-            <div class="col-md-8 mb-4">
-                <div class="card shadow-lg border-light rounded">
-                    <div class="card-body">
-                        <h5 class="card-title">Grafik Pendaftaran Atlet</h5>
-                        <canvas id="athleteRegistrationChart" style="height: 300px;"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Statistik Pembayaran -->
-            <div class="col-md-4 mb-4">
-                <div class="card shadow-lg border-light rounded">
-                    <div class="card-body">
-                        <h5 class="card-title">Statistik Pembayaran</h5>
-                        <ul class="list-group">
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Lunas
-                                <span class="badge bg-success rounded-pill">80%</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                Belum Lunas
-                                <span class="badge bg-danger rounded-pill">20%</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Quick Actions -->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <div class="card shadow-lg border-light rounded">
-                    <div class="card-body">
-                        <h5 class="card-title">Notifications</h5>
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                New athlete registration: 5 new entries
-                            </li>
-                            <li class="list-group-item">
-                                10 payments pending review
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nama</th>
+                    <th>Jabatan</th>
+                    <th>Kontingen</th>
+                    <th>Gender</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($officials as $index => $official)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $official['nama'] }}</td>
+                        <td>{{ $official['Jabatan'] }}</td>
+                        <td>{{ $official['kontingen'] }}</td>
+                        <td>{{ $official['gender'] }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
@@ -219,6 +166,10 @@
             parent.classList.toggle('active');
         }
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

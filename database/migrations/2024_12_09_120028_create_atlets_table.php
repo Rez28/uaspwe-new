@@ -16,6 +16,9 @@ return new class extends Migration
             $table->foreignId('kontingen_id')->constrained('kontingens')->onDelete('cascade');
             $table->foreignId('category_id')->constrained('categories');
             $table->string('name');
+            $table->date('birth_date');
+            $table->int('weight');
+            $table->int('height');
             $table->enum('gender', ['L', 'P']);
             $table->timestamps();
         });

@@ -283,3 +283,70 @@ footer {
         display: none;
     }
 }
+
+/* -------------Halaman admin----------------*/
+.sidenav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #23619f;
+    width: 250px;
+    transition: width 0.3s ease;
+    overflow-y: auto;
+}
+
+.sidenav-logo {
+    width: 50px; /* Atur lebar gambar sesuai keinginan */
+    height: auto; /* Biarkan tinggi gambar menyesuaikan proporsi */
+    display: block; /* Untuk memastikan gambar menjadi elemen blok */
+    margin: 0 auto; /* Agar gambar terpusat di dalam sidebar */
+}
+
+/* Sidebar collapsed */
+.sidenav.collapsed {
+    width: 60px; /* Lebar saat collapsed */
+}
+
+/* Style links */
+.sidenav a {
+    padding: 12px 20px; /* Jarak elemen */
+    text-decoration: none;
+    font-size: 16px; /* Ukuran teks default */
+    color: white;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s, color 0.3s;
+    gap: 12px; /* Jarak antara ikon dan teks */
+}
+
+/* Hide text when collapsed */
+.sidenav.collapsed .nav-text {
+    display: none; /* Sembunyikan teks */
+}
+
+/* Adjust link padding and alignment for icons */
+.sidenav.collapsed a {
+    justify-content: center; /* Pusatkan ikon */
+    padding: 12px; /* Kurangi padding */
+}
+
+/* Add hover effect */
+.sidenav a:hover {
+    background-color: #f8f9fa;
+    color: #2e1f45;
+    text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Style icons */
+.sidenav a svg {
+    width: 22px; /* Ukuran ikon */
+    height: 22px;
+    transition: transform 0.3s ease; /* Tambahkan animasi */
+}
+
+/* Adjust font size */
+.sidenav a h5 {
+    font-size: 15px;
+    margin: 0;
+    font-weight: 500; /* Tebal teks */
+}

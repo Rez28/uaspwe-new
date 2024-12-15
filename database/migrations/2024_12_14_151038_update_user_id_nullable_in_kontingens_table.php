@@ -10,15 +10,15 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::table('sessions', function (Blueprint $table) {
-            $table->string('ip_address')->nullable();
+        Schema::table('kontingens', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->nullable()->change();
         });
     }
 
     public function down()
     {
-        Schema::table('sessions', function (Blueprint $table) {
-            $table->dropColumn('ip_address');
+        Schema::table('kontingens', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->nullable(false)->change();
         });
     }
 };

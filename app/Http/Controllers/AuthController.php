@@ -1,59 +1,78 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\Role;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    // Fungsi untuk menampilkan form login
+    public function showLoginForm()
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|string|in:admin,official,user' // Pastikan role hanya salah satu dari ini
-        ]);
-
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-        ]);
-
-        // Setel role untuk pengguna (role default atau role tertentu)
-        $roleName = $validatedData['role']; // Role dari input pengguna
-        $role = Role::where('name', $roleName)->first();
-        $user->role()->associate($role);
-        $user->save();
-
-        Auth::login($user);
-
-        return redirect()->route('home'); // Sesuaikan dengan route yang sesuai untuk halaman utama Anda
+        return view('login');
     }
 
+    // Fungsi untuk proses login
     public function login(Request $request)
     {
-        $validatedData = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
-
-        if (Auth::attempt($validatedData)) {
-            return redirect()->intended(route('home')); // Sesuaikan dengan route untuk halaman utama setelah login
+        $credentials = $request->only('email', 'password');
+        
+        if (Auth::attempt($credentials)) {
+            // Redirect berdasarkan role
+            $role = Auth::user()->role;
+            if ($role == 'admin') {
+                return redirect()->route('admin.index'); // Redirect ke percobaan1 untuk admin
+            } else {
+                return redirect()->route('official.index'); // Redirect ke percobaan1 untuk user
+            }
         }
 
         return back()->withErrors([
-            'email' => 'Kredensial yang diberikan tidak cocok dengan catatan kami.',
+            'email' => 'The provided credentials do not match our records.',
         ]);
     }
 
+
+    // Fungsi untuk menampilkan form registrasi
+    public function showRegisterForm()
+    {
+        return view('register');
+    }
+
+    // Fungsi untuk proses registrasi
+    public function register(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:6|confirmed'
+        ]);
+
+        // Buat pengguna baru
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'user', // Set role ke 'user' secara otomatis
+        ]);
+
+        // Login otomatis setelah registrasi
+        Auth::login($user);
+
+        if($user->role == 'admin'){
+            return redirect('/admin/index');
+        }else{
+            return redirect('/official/index');
+        }
+    }
+
+    // Fungsi logout
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('login'); // Sesuaikan dengan route login
+        return redirect('/login');
     }
 }

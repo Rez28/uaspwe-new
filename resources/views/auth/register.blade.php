@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Silat Championship</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('css/register.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/login.css') }}">
 </head>
 
 <body>
@@ -14,7 +14,7 @@
         <div class="card w-50 shadow">
             <div class="card-body">
                 <h3 class="card-title text-center mb-4">Register</h3>
-                <form method="POST" action="/register">
+                <form method="POST" action="{{ route('register') }}">
                     @csrf
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
@@ -24,7 +24,7 @@
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
                         <input type="email" class="form-control" id="email" name="email"
-                            placeholder="name@example.com" required>
+                            placeholder="example@gmail.com" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
